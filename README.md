@@ -1,11 +1,12 @@
 # webshell
 
-Dragonhack project
+Dragonhack challenge to get tickets.<br>
+Deployed at: [webshell-b2u.pages.dev](https://webshell-b2u.pages.dev/)
 
 ## Routes
-- `/index.html` -> Linux boot `[  OK  ]` for 2 sec, then loading screen (PC boot). Redirect to grub after 3 sec of loading
-- `/grub.html` -> choose between `Ubuntu (light)` / `Arch (dark)` theme. Goes to `/shell.html`
-- `/shell.html` -> main site with commands
+- `/` -> Linux boot `[  OK  ]` for 2 sec, then loading screen (PC boot). Redirect to `/grub` after 3 sec of loading.
+- `/grub` -> choose between `Ubuntu (light)` / `Arch (dark)` theme. Goes to after 5 seconds timeout automatically `/shell`
+- `/shell` -> main site, terminal
 
 ## Commands
 - `help` - show all available commands
@@ -26,7 +27,7 @@ Dragonhack project
 - `checksum - hash generator`
 
 ## shell
-Shell looks like this (name is TBD...)
+Shell looks like this (user name is TBD...)
 ```
 user@nasa:~$ 
 ```
@@ -39,6 +40,7 @@ Files already present:
 - .. TBD
 
 ## Deploy
+Deployed on CF pages
 ```
 npx wrangler login
 npx wrangler pages deploy . --project-name=webshell

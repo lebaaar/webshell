@@ -1,4 +1,3 @@
-
 const fileSystem = {
     '/': {
         type: 'dir',

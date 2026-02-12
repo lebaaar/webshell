@@ -1,7 +1,7 @@
 {
   "name": "webshell",
   "version": "1.0.0",
-  "description": "Dragonhack project",
+  "description": "DragonHack project",
   "main": "index.js",
   "scripts": {
     "test": ""

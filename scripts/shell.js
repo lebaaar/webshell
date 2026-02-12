@@ -1,3 +1,18 @@
+const fileContents = {
+    'about.txt': `
+# Lan Lebar
+bla bla bla
+
+# Tian Istenič
+bla bla bla
+
+# Kristjan Kumlanc
+bla bla bla
+
+# Žan Krajnc
+bla bla bla
+    `
+};
 const fileSystem = {
     '/': {
         type: 'dir',
@@ -22,7 +37,7 @@ const fileSystem = {
                         type: 'dir',
                         children: {
                             '.env': { type: 'file', content: '8' },
-                            'about.txt': { type: 'file', content: 'avgusta' }
+                            'about.txt': { type: 'file', content: fileContents['about.txt'] }
                         }
                     }
                 }

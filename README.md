@@ -1,6 +1,6 @@
 # webshell
 
-Dragonhack challenge to get tickets.<br>
+DragonHack challenge to get tickets.<br>
 Deployed at: [webshell-b2u.pages.dev](https://webshell-b2u.pages.dev/)
 
 ## Routes

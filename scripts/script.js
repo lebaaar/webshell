@@ -14,3 +14,10 @@ const folders = {
         "log": ["syslog", ],
     },
 };
+
+// redirect to /shell
+if (window.location.pathname === "/" || window.location.pathname === "/index.html") {
+    setTimeout(() => {
+        window.location.pathname = "/shell.html";
+    }, 2000);
+}

@@ -152,10 +152,10 @@ function processCommand(input) {
 
     // Echo command
     const displayPath = currentPath === '/home/user' ? '~' : currentPath;
-    print(`user@nasa:${displayPath}$ ${trimmed}`, 'prompt');
+    printHTML(`<span class="prompt">user@nasa:${displayPath}$</span>${trimmed}`);
 
     // Parse command
-    const parts = trimmed.split(' ');
+    const parts = trimmed.split(/\s+/).filter(p => p);
     const cmd = parts[0];
     const args = parts.slice(1);
 

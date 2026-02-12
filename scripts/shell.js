@@ -1,3 +1,4 @@
+
 const fileSystem = {
     '/': {
         type: 'dir',
@@ -5,15 +6,24 @@ const fileSystem = {
             'bin': { type: 'dir', children: {} },
             'boot': { type: 'dir', children: {} },
             'dev': { type: 'dir', children: {} },
-            'etc': { type: 'dir', children: {} },
+            'etc': { type: 'dir', children: {
+                'hostname': { type: 'file', content: 'localhost' },
+                'hosts': { type: 'file', content: '127.0.0.1 localhost' },
+                'resolv.conf': { type: 'file', content: 'nameserver 8.8.8.8' },
+                'shadow': { type: 'file', content: 'root:$6$randomsalt$hashedpassword:18295:0:99999:7:::' },
+                'passwd': { type: 'file', content: 'root:x:0:0:root:/root:/bin/bash' },
+                'group': { type: 'file', content: 'root:x:0:' },
+                'gshadow': { type: 'file', content: 'root:!::' },
+                'init.d': { type: 'dir', children: {} }
+            } },
             'home': {
                 type: 'dir',
                 children: {
                     'user': {
                         type: 'dir',
                         children: {
-                            '.env': { type: 'file', content: 'b3NlbQ==' }, // zih ni 8
-                            'about.txt': { type: 'file', content: '8' }
+                            '.env': { type: 'file', content: '8' },
+                            'about.txt': { type: 'file', content: 'avgusta' }
                         }
                     }
                 }
@@ -142,7 +152,7 @@ const commands = {
     help() {
         print('Available commands:', 'info');
         print('  help       - Show this help message');
-        print('  man        - Show manual (alias for help)');
+        print('  man        - Show manual for a command');
         print('  ls         - List directory contents');
         print('  cat        - Display file contents');
         print('  clear      - Clear the terminal');
@@ -159,6 +169,10 @@ const commands = {
         print('  checksum   - Hash generator');
         print('  theme      - Switch between light/dark theme');
     },
+
+    man() {
+
+    }
 };
 
 // Process command

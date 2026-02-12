@@ -200,7 +200,7 @@ document.addEventListener('click', () => {
 });
 
 // Welcome message
-print('Welcome to webshell!', 'success');
+print('Welcome! We want DragonHack tickets :)', 'success');
 print('Type "help" to see available commands.', 'info');
 print('');
 

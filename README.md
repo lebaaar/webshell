@@ -37,3 +37,9 @@ Files already present:
 - `.env` - when base64 decoded is a funny value
 - `about.txt`
 - .. TBD
+
+## Deploy
+```
+npx wrangler login
+npx wrangler pages deploy . --project-name=webshell
+```

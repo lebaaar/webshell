@@ -1,0 +1,22 @@
+{
+  "name": "webshell",
+  "version": "1.0.0",
+  "description": "Dragonhack project",
+  "main": "index.js",
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lebaaar/webshell.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lebaaar/webshell/issues"
+  },
+  "homepage": "https://github.com/lebaaar/webshell#readme",
+  "devDependencies": {
+    "wrangler": "^4.65.0"
+  }
+}

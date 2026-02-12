@@ -246,8 +246,40 @@ commandInput.addEventListener('keydown', (e) => {
 });
 
 // Keep input focused
-document.addEventListener('click', () => {
+document.addEventListener('click', (e) => {
+    // Don't focus input if clicking on help button or modal
+    if (!e.target.closest('.help-button') && !e.target.closest('.modal-content')) {
+        commandInput.focus();
+    }
+});
+
+// Modal functionality
+const modal = document.getElementById('help-modal');
+const helpBtn = document.getElementById('help-btn');
+const closeBtn = document.querySelector('.close');
+
+helpBtn.addEventListener('click', () => {
+    modal.style.display = 'block';
+});
+
+closeBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
     commandInput.focus();
+});
+
+window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        modal.style.display = 'none';
+        commandInput.focus();
+    }
+});
+
+// ESC key to close modal
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.style.display === 'block') {
+        modal.style.display = 'none';
+        commandInput.focus();
+    }
 });
 
 // Welcome message
@@ -257,3 +289,4 @@ print('');
 
 updatePrompt();
 commandInput.focus();
+

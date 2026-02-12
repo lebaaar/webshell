@@ -2,15 +2,6 @@
   "name": "webshell",
   "compatibility_date": "2026-02-12",
   "assets": {
-    "directory": ".",
-    "ignore": [
-      "node_modules/**",
-      ".git/**",
-      ".gitignore",
-      "package.json",
-      "package-lock.json",
-      "wrangler.jsonc",
-      "README.md"
-    ]
+    "directory": "."
   }
 }

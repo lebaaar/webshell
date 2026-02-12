@@ -2,6 +2,10 @@ const fileSystem = {
     '/': {
         type: 'dir',
         children: {
+            'bin': { type: 'dir', children: {} },
+            'boot': { type: 'dir', children: {} },
+            'dev': { type: 'dir', children: {} },
+            'etc': { type: 'dir', children: {} },
             'home': {
                 type: 'dir',
                 children: {
@@ -14,11 +18,30 @@ const fileSystem = {
                     }
                 }
             },
-            'bin': { type: 'dir', children: {} },
-            'etc': { type: 'dir', children: {} },
-            'usr': { type: 'dir', children: {} },
-            'var': { type: 'dir', children: {} },
-            'tmp': { type: 'dir', children: {} }
+            'lib': { type: 'dir', children: {} },
+            'media': { type: 'dir', children: {} },
+            'mnt': { type: 'dir', children: {} },
+            'opt': { type: 'dir', children: {} },
+            'root': { type: 'dir', children: {} },
+            'proc': { type: 'dir', children: {} },
+            'sbin': { type: 'dir', children: {} },
+            'srv': { type: 'dir', children: {} },
+            'sys': { type: 'dir', children: {} },
+            'tmp': { type: 'dir', children: {} },
+            'usr': { type: 'dir', children: {
+                'bin': { type: 'dir', children: {} },
+                'lib': { type: 'dir', children: {} },
+                'local': { type: 'dir', children: {} },
+                'share': { type: 'dir', children: {} },
+                'src': { type: 'dir', children: {} }
+            } },
+            'var': { type: 'dir', children: {
+                'cache': { type: 'dir', children: {} },
+                'lock': { type: 'dir', children: {} },
+                'log': { type: 'dir', children: {} },
+                'spool': { type: 'dir', children: {} },
+                'tmp': { type: 'dir', children: {} },
+            } }
         }
     }
 };

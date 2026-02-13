@@ -116,6 +116,88 @@ const commands = {
 
     man() {
 
+    },
+
+    clear() {
+        output.innerHTML = '';
+    },
+
+    echo(args) {
+        print(args.join(' '));
+    },
+
+    pwd() {
+        print(currentPath);
+    },
+
+    uptime() {
+        const now = new Date();
+        const hours = Math.floor(Math.random() * 100) + 10;
+        const minutes = Math.floor(Math.random() * 60);
+        const users = Math.floor(Math.random() * 3) + 1;
+        const load1 = (Math.random() * 2).toFixed(2);
+        const load5 = (Math.random() * 2).toFixed(2);
+        const load15 = (Math.random() * 2).toFixed(2);
+        
+        const time = now.toTimeString().split(' ')[0];
+        print(`${time} up ${hours}:${minutes.toString().padStart(2, '0')}, ${users} user, load average: ${load1}, ${load5}, ${load15}`);
+    },
+
+    theme(args) {
+        if (!args[0]) {
+            print(`Current theme: ${theme}`, 'info');
+            print('Usage: theme <light|dark>');
+            return;
+        }
+
+        const newTheme = args[0].toLowerCase();
+        
+        if (newTheme !== 'light' && newTheme !== 'dark') {
+            print('Invalid theme. Use: light or dark', 'error');
+            return;
+        }
+
+        theme = newTheme;
+        localStorage.setItem('theme', theme);
+        
+        if (theme === 'light') {
+            document.body.classList.add('light');
+        } else {
+            document.body.classList.remove('light');
+        }
+        
+        print(`Theme switched to ${theme}`, 'success');
+    },
+
+    ls(args) {
+        const targetPath = args[0] ? resolvePath(args[0]) : currentPath;
+        const node = getNode(targetPath);
+        
+        if (!node) {
+            print(`ls: cannot access '${args[0] || targetPath}': No such file or directory`, 'error');
+            return;
+        }
+        
+        if (node.type === 'file') {
+            print(args[0] || targetPath.split('/').pop());
+            return;
+        }
+        
+        const children = node.children || {};
+        const items = Object.keys(children);
+        
+        if (items.length === 0) {
+            return;
+        }
+        
+        items.sort().forEach(name => {
+            const child = children[name];
+            if (child.type === 'dir') {
+                printHTML(`<span style="color: #5c9fd8; font-weight: bold;">${name}/</span>`);
+            } else {
+                print(name);
+            }
+        });
     }
 };
 

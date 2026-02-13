@@ -198,6 +198,30 @@ const commands = {
                 print(name);
             }
         });
+    },
+    cat(args) {
+        if (!args[0]) {
+            print('Usage: cat <filename>', 'info');
+            return;
+        }
+        
+        const targetPath = resolvePath(args[0]);
+        const node = getNode(targetPath);
+        if (!node) {
+            print(`cat: ${args[0]}: No such file or directory`, 'error');
+            return;
+        }
+        
+        if (node.type === 'dir') {
+            print(`cat: ${args[0]}: Is a directory`, 'error');
+            return;
+        }
+        
+        if (node.content) {
+            print(node.content);
+        } else {
+            print('');
+        }
     }
 };
 

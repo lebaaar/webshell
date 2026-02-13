@@ -1,0 +1,25 @@
+body { 
+    background: #0b0d0f; 
+    color: #d6d6d6; 
+    font-family: ui-monospace, Menlo, Consolas, monospace; 
+    overflow-y: auto;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+#boot {
+  height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+#terminal {
+  height: 100%;
+  color: #d6d6d6;
+  font-family: monospace;
+  overflow-y: hidden;
+
+}

@@ -1,0 +1,102 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #000000;
+    color: #ffffff;
+    font-family: 'Courier New', 'Courier', monospace;
+    font-size: 16px;
+    line-height: 1.5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.grub-container {
+    width: 100%;
+    max-width: 800px;
+    padding: 40px;
+}
+
+.grub-header {
+    text-align: center;
+    margin-bottom: 60px;
+    font-size: 18px;
+    letter-spacing: 1px;
+    white-space: pre;
+}
+
+.grub-menu {
+    margin-bottom: 80px;
+    padding: 0 80px;
+}
+
+.menu-item {
+    padding: 12px 20px;
+    margin: 8px 0;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    font-size: 16px;
+}
+
+.menu-item.selected {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.grub-footer {
+    padding: 0 40px;
+    font-size: 14px;
+}
+
+.instructions {
+    margin-bottom: 8px;
+    color: #cccccc;
+}
+
+.timer {
+    margin-top: 20px;
+    color: #aaaaaa;
+}
+
+#countdown {
+    color: #ffffff;
+    font-weight: bold;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .grub-container {
+        padding: 20px;
+    }
+    
+    .grub-menu {
+        padding: 0 20px;
+    }
+    
+    .grub-footer {
+        padding: 0 20px;
+    }
+    
+    body {
+        font-size: 14px;
+    }
+    
+    .grub-header {
+        font-size: 14px;
+        margin-bottom: 40px;
+    }
+    
+    .menu-item {
+        font-size: 14px;
+    }
+    
+    .grub-footer {
+        font-size: 12px;
+    }
+}

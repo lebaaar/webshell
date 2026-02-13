@@ -5,6 +5,15 @@ let countdownInterval = null;
 const menuItems = document.querySelectorAll('.menu-item');
 const countdownElement = document.getElementById('countdown');
 
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme) {
+    menuItems.forEach((item, index) => {
+        if (item.getAttribute('data-theme') === savedTheme) {
+            selectedIndex = index;
+        }
+    });
+}
+
 function updateSelection() {
     menuItems.forEach((item, index) => {
         if (index === selectedIndex) {
@@ -20,6 +29,7 @@ function boot() {
     const theme = selectedItem.getAttribute('data-theme');
     
     localStorage.setItem('theme', theme);
+    
     
     if (countdownInterval) {
         clearInterval(countdownInterval);

@@ -5,6 +5,8 @@ let currentPath = '/home/user';
 let commandHistory = [];
 let historyIndex = -1;
 let theme = localStorage.getItem('theme') || 'dark';
+let lastTabInput = '';
+let tabPressCount = 0;
 
 // Apply saved theme
 if (theme === 'light') {
@@ -89,6 +91,111 @@ function getNode(path) {
     }
 
     return node;
+}
+
+// Tab completion helpers
+function getCommonPrefix(strings) {
+    if (strings.length === 0) return '';
+    if (strings.length === 1) return strings[0];
+    
+    let prefix = strings[0];
+    for (let i = 1; i < strings.length; i++) {
+        while (strings[i].indexOf(prefix) !== 0) {
+            prefix = prefix.substring(0, prefix.length - 1);
+            if (prefix === '') return '';
+        }
+    }
+    return prefix;
+}
+
+function getPathCompletions(partial) {
+    const lastSlash = partial.lastIndexOf('/');
+    let dirPath, prefix;
+    
+    if (lastSlash === -1) {
+        dirPath = currentPath;
+        prefix = partial;
+    } else {
+        const pathPart = partial.substring(0, lastSlash + 1);
+        dirPath = resolvePath(pathPart);
+        prefix = partial.substring(lastSlash + 1);
+    }
+    
+    const node = getNode(dirPath);
+    if (!node || node.type !== 'dir') return [];
+    
+    const children = node.children || {};
+    const matches = Object.keys(children)
+        .filter(name => name.startsWith(prefix))
+        .map(name => {
+            const child = children[name];
+            const fullPrefix = lastSlash === -1 ? '' : partial.substring(0, lastSlash + 1);
+            return fullPrefix + name + (child.type === 'dir' ? '/' : '');
+        });
+    
+    return matches;
+}
+
+function handleTabCompletion() {
+    const input = commandInput.value;
+    const cursorPos = commandInput.selectionStart;
+    const beforeCursor = input.substring(0, cursorPos);
+    const parts = beforeCursor.split(/\s+/);
+    
+    // if second tab on same input
+    if (input === lastTabInput) {
+        tabPressCount++;
+    } else {
+        tabPressCount = 1;
+        lastTabInput = input;
+    }
+    
+    let matches = [];
+    let isCommand = parts.length === 1 && !beforeCursor.includes(' ');
+    
+    if (isCommand) {
+        // complete command names
+        const partial = parts[0] || '';
+        matches = Object.keys(commands).filter(cmd => cmd.startsWith(partial));
+    } else {
+        // complete dir paths
+        const partial = parts[parts.length - 1] || '';
+        matches = getPathCompletions(partial);
+    }
+    
+    if (matches.length === 0) {
+        return;
+    }
+    
+    if (matches.length === 1) {
+        // single match
+        const match = matches[0];
+        const partial = isCommand ? parts[0] : parts[parts.length - 1];
+        const beforePartial = input.substring(0, cursorPos - partial.length);
+        const afterCursor = input.substring(cursorPos);
+        commandInput.value = beforePartial + match + afterCursor;
+        commandInput.selectionStart = commandInput.selectionEnd = beforePartial.length + match.length;
+        lastTabInput = commandInput.value;
+    } else if (tabPressCount === 1) {
+        // multiple matches
+        const commonPrefix = getCommonPrefix(matches);
+        const partial = isCommand ? parts[0] : parts[parts.length - 1];
+        
+        if (commonPrefix.length > partial.length) {
+            const beforePartial = input.substring(0, cursorPos - partial.length);
+            const afterCursor = input.substring(cursorPos);
+            commandInput.value = beforePartial + commonPrefix + afterCursor;
+            commandInput.selectionStart = commandInput.selectionEnd = beforePartial.length + commonPrefix.length;
+            lastTabInput = commandInput.value;
+        }
+    } else {
+        // second tab => echo current input line, then show matches
+        const displayPath = currentPath === '/home/user' ? '~' : currentPath;
+        printHTML(`<span class="prompt">user@nasa:${displayPath}$</span> ${input}`);
+        matches.forEach(match => {
+            print(match);
+        });
+    }
 }
 
 // Commands
@@ -199,6 +306,7 @@ const commands = {
             }
         });
     },
+
     cat(args) {
         if (!args[0]) {
             print('Usage: cat <filename>', 'info');
@@ -277,7 +385,11 @@ commandInput.addEventListener('keydown', (e) => {
         }
     } else if (e.key === 'Tab') {
         e.preventDefault();
-        // Could implement tab completion here
+        handleTabCompletion();
+    } else if (e.key !== 'Shift' && e.key !== 'Control' && e.key !== 'Alt') {
+        // Reset tab completion on any other key
+        lastTabInput = '';
+        tabPressCount = 0;
     }
 });
 

@@ -35,7 +35,7 @@ function boot() {
         clearInterval(countdownInterval);
     }
     
-    window.location.href = '/shell.html';
+    window.location.href = '/boot.html';
 }
 
 function startCountdown() {

@@ -22,17 +22,18 @@ fetch('resources/boot.log')
 
     lines.forEach((line, i) => {
       setTimeout(() => {
-        const elem = document.createElement('div');
+        const elem = document.createElement('pre');
+        elem.style.margin = '0';
         elem.innerHTML = ansiToHtml(line);
         terminal.appendChild(elem);
 
         terminal.scrollTop = terminal.scrollHeight;
 
-      }, i * 35);
+      }, i * 15);
     });
   })
   .catch(console.error);
 
 setTimeout(() => {
     window.location.href = "/shell.html";
-}, 6000);
+}, 3000);

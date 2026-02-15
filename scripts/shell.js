@@ -17,6 +17,11 @@ const output = document.getElementById('output');
 const commandInput = document.getElementById('command-input');
 const promptElement = document.getElementById('prompt');
 
+// click anywhere to focus input
+document.querySelector('body').addEventListener('click', () => {
+    commandInput.focus();
+});
+
 // Update prompt based on current path
 function updatePrompt() {
     const displayPath = currentPath === '/home/user' ? '~' : currentPath;

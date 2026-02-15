@@ -36,4 +36,4 @@ fetch('resources/boot.log')
 
 setTimeout(() => {
     window.location.href = "/shell.html";
-}, 3000);
+}, 2800);

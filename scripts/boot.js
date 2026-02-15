@@ -28,11 +28,11 @@ fetch('resources/boot.log')
 
         terminal.scrollTop = terminal.scrollHeight;
 
-      }, i * 35);
+      }, i * 15);
     });
   })
   .catch(console.error);
 
 setTimeout(() => {
     window.location.href = "/shell.html";
-}, 6000);
+}, 4000);

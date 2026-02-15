@@ -64,11 +64,6 @@ body {
     color: #aaaaaa;
 }
 
-#countdown {
-    color: #ffffff;
-    font-weight: bold;
-}
-
 @media (max-width: 768px) {
     .grub-container {
         padding: 20px;

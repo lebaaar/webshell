@@ -9,28 +9,25 @@
 </head>
 <body>
     <div class="grub-container">
-        <div class="grub-header">
-                          GNU GRUB  version 2.06
-        </div>
+        <div class="grub-header">GNU GRUB  version 2.06</div>
         
         <div class="grub-menu">
-            <div class="menu-item selected" data-theme="light">
-                Ubuntu (light theme)
-            </div>
             <div class="menu-item" data-theme="dark">
                 Arch Linux (dark theme)
             </div>
+            <div class="menu-item selected" data-theme="light">
+                Ubuntu (light theme)
+            </div>
         </div>
-        
         <div class="grub-footer">
             <div class="instructions">
                 Use the ↑ and ↓ keys to select which entry is highlighted.
             </div>
             <div class="instructions">
-                Press enter to boot the selected OS, or 'e' to edit the commands before booting.
+                Press enter to boot the selected OS, 'e' to edit the commands before booting or 'c' for a command-line.
             </div>
             <div class="timer">
-                The highlighted entry will be executed automatically in <span id="countdown">5</span>s.
+                The highlighted entry will be executed automatically in 5 seconds.
             </div>
         </div>
     </div>

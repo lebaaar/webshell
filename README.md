@@ -1,43 +1,22 @@
 # webshell
 
-DragonHack challenge to get tickets.<br>
+DragonHack URL challenge - (almost) full UNIX machine emulator on the web.<br>
 Deployed at: [webshell-b2u.pages.dev](https://webshell-b2u.pages.dev/)
 
-## Routes
-- `/` -> Linux boot `[  OK  ]` for 2 sec, then loading screen (PC boot). Redirect to `/grub` after 3 sec of loading.
-- `/grub` -> choose between `Ubuntu (light)` / `Arch (dark)` theme. Goes to after 5 seconds timeout automatically `/shell`
-- `/shell` -> main site, terminal
-
 ## Commands
+Most standard UNIX commands are supported, some examples include:
 - `help` - show all available commands
 - `man` - show all available commands
-- `ls`
-- `cat`
-- `clear`
-- `pwd`
-- `cd`
-- `echo`
+- `ls` - list folder contents
+- `cat` - read file content
+- `clear` - clear screen
+- `pwd` - print working directory
+- `cd` - change directory
 - `sudo` - prints out nuh uh for 3 sec, redirect to rickroll
 - `whoami` - lists info about team, each member (portoflio for each user)
-- `neofetch` - draw a dragon with specs
-- `draw [dragon|cat|dog]` - ascii art
-- `uptime`
-- `ping`
-- `git [branch|status]`
-- `checksum - hash generator`
-
-## shell
-Shell looks like this (user name is TBD...)
-```
-user@nasa:~$ 
-```
-
-Files already present:
-- Default dir is `/home/user`
-- All other dirs are unix standard, all empty by default
-- `.env` - when base64 decoded is a funny value
-- `about.txt`
-- .. TBD
+- `draw` - draw a dragon in ascii art
+- `git` - lists git details about this repo
+- ...
 
 ## Deploy
 Deployed on CF pages

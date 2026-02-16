@@ -1,7 +1,7 @@
 export const fileContents = {
-    'about.txt': `
-# Lan Lebar
-bla bla bla
+    'about.txt': `# Lan Lebar
+Computer science student at FRI && part time software developer - interested in cybersecurity, UX/UI design, and frontend software development.
+Projects: <a href="https://www.potegni.me" target="_blank">potegni.me</a>, <a href="https://lan.si" target="_blank">lan.si</a>, and more on my GitHub: <a href="https://github.com/lebaaar" target="_blank">GitHub</a>
 
 # Tian Istenič
 bla bla bla
@@ -65,7 +65,8 @@ export const fileSystem = {
                 'log': { type: 'dir', children: {} },
                 'spool': { type: 'dir', children: {} },
                 'tmp': { type: 'dir', children: {} },
-            } }
+            }
+        }
         }
     }
 };

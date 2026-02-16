@@ -94,3 +94,11 @@ body.light .info {
 body.light .ascii-art {
     color: #7b1fa2;
 }
+
+a {
+    color: rgb(13, 108, 218);
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}

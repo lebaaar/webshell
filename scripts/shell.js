@@ -331,7 +331,7 @@ const commands = {
         }
         
         if (node.content) {
-            print(node.content);
+            printHTML(node.content);
         } else {
             print('');
         }

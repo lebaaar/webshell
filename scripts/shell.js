@@ -206,7 +206,8 @@ function handleTabCompletion() {
 // Commands
 const commands = {
     help() {
-        print('Available commands:', 'info');
+        print('To learn about our team, type `cat about.txt`', 'info');
+        print('Most UNIX commands are supported, some examples include::', 'info');
         print('  help       - Show this help message');
         print('  man        - Show manual for a command');
         print('  ls         - List directory contents');
@@ -217,12 +218,9 @@ const commands = {
         print('  echo       - Print text to terminal');
         print('  sudo       - Execute command as superuser');
         print('  whoami     - Display team information');
-        print('  neofetch   - Display system information');
-        print('  draw       - Draw ASCII art (dragon|cat|dog)');
+        print('  draw       - Draw ASCII art of a dragon');
         print('  uptime     - Show system uptime');
-        print('  ping       - Ping a host');
         print('  git        - Git operations (branch|status)');
-        print('  checksum   - Hash generator');
         print('  theme      - Switch between light/dark theme');
     },
 
@@ -349,8 +347,150 @@ const commands = {
         } else {
             print('');
         }
+    },
+
+    whoami() {
+        // same as `cat about.txt`
+        const aboutNode = getNode('/home/user/about.txt');
+        if (aboutNode && aboutNode.content) {
+            printHTML(aboutNode.content);
+        } else {
+            print('whoami: No such file or directory', 'error');
+        }
+    },
+
+    rm(args) {
+        if (!args[0]) {
+            print('Usage: rm <filename>', 'info');
+            return;
+        }
+        const targetPath = resolvePath(args[0]);
+        const node = getNode(targetPath);
+        if (!node) {
+            print(`rm: ${args[0]}: No such file or directory`, 'error');
+            return;
+        }
+        if (node.type === 'dir') {
+            print(`rm: ${args[0]}: Is a directory`, 'error');
+            return;
+        }
+        deleteNode(targetPath);
+        print(`rm: ${args[0]}: File deleted`, 'success');
+    },
+
+    mv(args) {
+        if (!args[0] || !args[1]) {
+            print('Usage: mv <source> <destination>', 'info');
+            return;
+        }
+        const sourcePath = resolvePath(args[0]);
+        const destPath = resolvePath(args[1]);
+        const node = getNode(sourcePath);
+        if (!node) {
+            print(`mv: ${args[0]}: No such file or directory`, 'error');
+            return;
+        }
+        if (node.type === 'dir') {
+            print(`mv: ${args[0]}: Is a directory`, 'error');
+            return;
+        }
+        deleteNode(sourcePath);
+        print(`mv: ${args[0]}: File moved to ${args[1]}`, 'success');
+    },
+
+    cp(args) {
+        if (!args[0] || !args[1]) {
+            print('Usage: cp <source> <destination>', 'info');
+            return;
+        }
+        const sourcePath = resolvePath(args[0]);
+        let destPath = resolvePath(args[1]);
+        const sourceNode = getNode(sourcePath);
+        
+        if (!sourceNode) {
+            print(`cp: ${args[0]}: No such file or directory`, 'error');
+            return;
+        }
+        if (sourceNode.type === 'dir') {
+            print(`cp: ${args[0]}: Is a directory`, 'error');
+            return;
+        }
+        
+        // Check if destination is a directory
+        const destNode = getNode(destPath);
+        if (destNode && destNode.type === 'dir') {
+            // If destination is a directory, append the source filename
+            const sourceFileName = sourcePath.split('/').filter(p => p).pop();
+            destPath = destPath + (destPath.endsWith('/') ? '' : '/') + sourceFileName;
+        }
+        
+        // Create the new file
+        if (createNode(destPath, 'file')) {
+            // Copy the content from source to destination
+            const newDestNode = getNode(destPath);
+            if (newDestNode && sourceNode.content) {
+                newDestNode.content = sourceNode.content;
+            }
+            print(`cp: ${args[0]}: File copied to ${args[1]}`, 'success');
+        } else {
+            print(`cp: ${args[1]}: File already exists`, 'error');
+        }
+    },
+
+    mkdir(args) {
+        if (!args[0]) {
+            print('Usage: mkdir <directory>', 'info');
+            return;
+        }
+        const dirPath = resolvePath(args[0]);
+        if (getNode(dirPath)) {
+            print(`mkdir: ${args[0]}: Directory already exists`, 'error');
+            return;
+        }
+        createNode(dirPath, 'dir');
+        print(`mkdir: ${args[0]}: Directory created`, 'success');
+    },
+
+    rmdir(args) {
+        if (!args[0]) {
+            print('Usage: rmdir <directory>', 'info');
+            return;
+        }
+        const dirPath = resolvePath(args[0]);
+        const node = getNode(dirPath);
+        if (!node) {
+            print(`rmdir: ${args[0]}: No such file or directory`, 'error');
+            return;
+        }
+        if (node.type !== 'dir') {
+            print(`rmdir: ${args[0]}: Not a directory`, 'error');
+            return;
+        }
+        deleteNode(dirPath);
+        print(`rmdir: ${args[0]}: Directory deleted`, 'success');
+    },
+
+    touch(args) {
+        if (!args[0]) {
+            print('Usage: touch <filename>', 'info');
+            return;
+        }
+        const filePath = resolvePath(args[0]);
+        if (getNode(filePath)) {
+            print(`touch: ${args[0]}: File already exists`, 'error');
+            return;
+        }
+        createNode(filePath, 'file');
+        print(`touch: ${args[0]}: File created`, 'success');
     }
 };
+
+const unsupportedCommands = ['sudo', 'neofetch', 'fastfetch', 'ping', 'checksum', 'chmod', 'chown'];
+unsupportedCommands.forEach(cmd => {
+    commands[cmd] = function() {
+        print(`${cmd} is not supported in webshell :(.`, 'error');
+    };
+});
 
 // Process command
 function processCommand(input) {
@@ -379,6 +519,49 @@ function processCommand(input) {
     } else {
         print(`${cmd}: command not found`, 'error');
     }
+}
+
+function createNode(path, type) {
+    const parts = path.split('/').filter(p => p);
+    const nameToCreate = parts.pop();
+    let node = fileSystem['/'];
+
+    for (const part of parts) {
+        if (!node.children[part]) {
+            node.children[part] = { type: 'dir', children: {} };
+        }
+        node = node.children[part];
+    }
+
+    if (node.children[nameToCreate]) {
+        return false;
+    }
+
+    if (type === 'dir') {
+        node.children[nameToCreate] = { type: 'dir', children: {} };
+    } else {
+        node.children[nameToCreate] = { type: 'file', content: '' };
+    }
+    return true;
+}
+
+function deleteNode(path) {
+    const parts = path.split('/').filter(p => p);
+    const nameToDelete = parts.pop();
+    let node = fileSystem['/'];
+
+    for (const part of parts) {
+        if (!node.children || !node.children[part]) {
+            return false;
+        }
+        node = node.children[part];
+    }
+
+    if (node.children && node.children[nameToDelete]) {
+        delete node.children[nameToDelete];
+        return true;
+    }
+    return false;
 }
 
 // Event listeners

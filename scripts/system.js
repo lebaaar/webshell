@@ -51,6 +51,9 @@ export const fileSystem = {
                                 type: 'dir',
                                 children: {
                                     'lan.jpg': { type: 'file', content: '<img src="resources/lan.jpeg" alt="Lan Lebar" width="200" />' },
+                                    'tian.jpg': { type: 'file', content: '<img src="resources/tian.jpeg" alt="Tian Istenič" width="200" />' },
+                                    'kristjan.jpg': { type: 'file', content: '<img src="resources/kristjan.jpeg" alt="Kristjan Kumlanc" width="200" />' },
+                                    'zan.jpg': { type: 'file', content: '<img src="resources/zan.jpeg" alt="Žan Krajnc" width="200" />' },
                                 }
                             },
                             'Desktop': {

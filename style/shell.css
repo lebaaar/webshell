@@ -13,6 +13,11 @@ body {
     overflow: hidden;
 }
 
+h1 {
+    font-size: 22px;
+    margin: 8px 0px 0px;
+}
+
 #terminal {
     padding: 20px;
     height: 100vh;

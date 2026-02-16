@@ -146,7 +146,7 @@ function handleTabCompletion() {
     const cursorPos = commandInput.selectionStart;
     const beforeCursor = input.substring(0, cursorPos);
     const parts = beforeCursor.split(/\s+/);
-    
+
     // if second tab on same input
     if (input === lastTabInput) {
         tabPressCount++;
@@ -154,10 +154,10 @@ function handleTabCompletion() {
         tabPressCount = 1;
         lastTabInput = input;
     }
-    
+
     let matches = [];
     let isCommand = parts.length === 1 && !beforeCursor.includes(' ');
-    
+
     if (isCommand) {
         // complete command names
         const partial = parts[0] || '';
@@ -167,11 +167,11 @@ function handleTabCompletion() {
         const partial = parts[parts.length - 1] || '';
         matches = getPathCompletions(partial);
     }
-    
+
     if (matches.length === 0) {
         return;
     }
-    
+
     if (matches.length === 1) {
         // single match
         const match = matches[0];
@@ -185,7 +185,7 @@ function handleTabCompletion() {
         // multiple matches
         const commonPrefix = getCommonPrefix(matches);
         const partial = isCommand ? parts[0] : parts[parts.length - 1];
-        
+
         if (commonPrefix.length > partial.length) {
             const beforePartial = input.substring(0, cursorPos - partial.length);
             const afterCursor = input.substring(cursorPos);
@@ -196,7 +196,7 @@ function handleTabCompletion() {
     } else {
         // second tab => echo current input line, then show matches
         const displayPath = currentPath === '/home/user' ? '~' : currentPath;
-        printHTML(`<span class="prompt">user@nasa:${displayPath}$</span> ${input}`);
+        printHTML(`<span class="prompt">user@nasa:${displayPath}$</span>${input}`);
         matches.forEach(match => {
             print(match);
         });
@@ -242,15 +242,39 @@ const commands = {
         print(currentPath);
     },
 
+    cd(args) {
+        if (!args[0]) {
+            currentPath = '/home/user';
+            updatePrompt();
+            return;
+        }
+
+        const targetPath = resolvePath(args[0]);
+        const node = getNode(targetPath);
+
+        if (!node) {
+            print(`cd: ${args[0]}: No such file or directory`, 'error');
+            return;
+        }
+
+        if (node.type !== 'dir') {
+            print(`cd: ${args[0]}: Not a directory`, 'error');
+            return;
+        }
+
+        currentPath = targetPath;
+        updatePrompt();
+    },
+
     uptime() {
         const now = new Date();
         const hours = Math.floor(Math.random() * 100) + 10;
         const minutes = Math.floor(Math.random() * 60);
-        const users = Math.floor(Math.random() * 3) + 1;
+        const users = 1;
         const load1 = (Math.random() * 2).toFixed(2);
         const load5 = (Math.random() * 2).toFixed(2);
         const load15 = (Math.random() * 2).toFixed(2);
-        
+
         const time = now.toTimeString().split(' ')[0];
         print(`${time} up ${hours}:${minutes.toString().padStart(2, '0')}, ${users} user, load average: ${load1}, ${load5}, ${load15}`);
     },
@@ -261,9 +285,7 @@ const commands = {
             print('Usage: theme <light|dark>');
             return;
         }
-
         const newTheme = args[0].toLowerCase();
-        
         if (newTheme !== 'light' && newTheme !== 'dark') {
             print('Invalid theme. Use: light or dark', 'error');
             return;
@@ -271,37 +293,32 @@ const commands = {
 
         theme = newTheme;
         localStorage.setItem('theme', theme);
-        
         if (theme === 'light') {
             document.body.classList.add('light');
         } else {
             document.body.classList.remove('light');
         }
-        
+
         print(`Theme switched to ${theme}`, 'success');
     },
 
     ls(args) {
         const targetPath = args[0] ? resolvePath(args[0]) : currentPath;
         const node = getNode(targetPath);
-        
         if (!node) {
             print(`ls: cannot access '${args[0] || targetPath}': No such file or directory`, 'error');
             return;
         }
-        
         if (node.type === 'file') {
             print(args[0] || targetPath.split('/').pop());
             return;
         }
-        
+
         const children = node.children || {};
         const items = Object.keys(children);
-        
         if (items.length === 0) {
             return;
         }
-        
         items.sort().forEach(name => {
             const child = children[name];
             if (child.type === 'dir') {
@@ -317,19 +334,16 @@ const commands = {
             print('Usage: cat <filename>', 'info');
             return;
         }
-        
         const targetPath = resolvePath(args[0]);
         const node = getNode(targetPath);
         if (!node) {
             print(`cat: ${args[0]}: No such file or directory`, 'error');
             return;
         }
-        
         if (node.type === 'dir') {
             print(`cat: ${args[0]}: Is a directory`, 'error');
             return;
         }
-        
         if (node.content) {
             printHTML(node.content);
         } else {

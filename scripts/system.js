@@ -1,6 +1,6 @@
 export const fileContents = {
     'about.txt': `# Lan Lebar
-Computer science student at <a href="https://fri.uni-lj.si/sl" target="_blank">FRI</a> && part time software developer - interested in cybersecurity, UX/UI design, and frontend software development.
+Computer science student at <a href="https://fri.uni-lj.si/sl" target="_blank">FRI</a> && part time software developer - interested in cybersecurity, UX/UI design and frontend software development.
 Projects: <a href="https://www.potegni.me" target="_blank">potegni.me</a>, <a href="https://lan.si" target="_blank">lan.si</a>, and more on my GitHub: <a href="https://github.com/lebaaar" target="_blank">GitHub</a>
 
 # Tian Istenič
@@ -10,8 +10,7 @@ bla bla bla
 bla bla bla
 
 # Žan Krajnc
-bla bla bla
-    `
+bla bla bla`
 };
 export const fileSystem = {
     '/': {

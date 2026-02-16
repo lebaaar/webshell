@@ -35,7 +35,42 @@ export const fileSystem = {
                     'user': {
                         type: 'dir',
                         children: {
-                            '.env': { type: 'file', content: '8' },
+                            'Secrets': {
+                                type: 'dir',
+                                children: {
+                                    '.env': { type: 'file', content: '8' },
+                                }
+                            },
+                            'Documents': {
+                                type: 'dir',
+                                children: {
+                                    'empty.txt': { type: 'file', content: 'A sad, empty file.' },
+                                }
+                            },
+                            'Pictures': {
+                                type: 'dir',
+                                children: {
+                                    'lan.jpg': { type: 'file', content: '<img src="resources/lan.jpeg" alt="Lan Lebar" width="200" />' },
+                                }
+                            },
+                            'Desktop': {
+                                type: 'dir',
+                                children: {
+                                    'empty.txt': { type: 'file', content: 'A sad, empty file.' },
+                                }
+                            },
+                            'Downloads': {
+                                type: 'dir',
+                                children: {
+                                    'empty.txt': { type: 'file', content: 'A sad, empty file.' },
+                                }
+                            },
+                            'Homework': {
+                                type: 'dir',
+                                children: {
+                                    '100GB_file.txt': { type: 'file', content: 'Definitely homework related... Nothing to see here' },
+                                }
+                            },
                             'about.txt': { type: 'file', content: fileContents['about.txt'] }
                         }
                     }

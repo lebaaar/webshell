@@ -203,6 +203,16 @@ function handleTabCompletion() {
     }
 }
 
+// Helper function to check for unsupported flags
+function hasFlags(args, commandName) {
+    const flags = args.filter(arg => arg.startsWith('-'));
+    if (flags.length > 0) {
+        print(`${commandName}: flags are not supported`, 'info');
+        return true;
+    }
+    return false;
+}
+
 // Commands
 const commands = {
     help() {
@@ -247,6 +257,8 @@ const commands = {
             return;
         }
 
+        if (hasFlags(args, 'cd')) return;
+
         const targetPath = resolvePath(args[0]);
         const node = getNode(targetPath);
 
@@ -283,6 +295,9 @@ const commands = {
             print('Usage: theme <light|dark>');
             return;
         }
+
+        if (hasFlags(args, 'theme')) return;
+
         const newTheme = args[0].toLowerCase();
         if (newTheme !== 'light' && newTheme !== 'dark') {
             print('Invalid theme. Use: light or dark', 'error');
@@ -301,6 +316,8 @@ const commands = {
     },
 
     ls(args) {
+        if (hasFlags(args, 'ls')) return;
+
         const targetPath = args[0] ? resolvePath(args[0]) : currentPath;
         const node = getNode(targetPath);
         if (!node) {
@@ -332,6 +349,9 @@ const commands = {
             print('Usage: cat <filename>', 'info');
             return;
         }
+
+        if (hasFlags(args, 'cat')) return;
+
         const targetPath = resolvePath(args[0]);
         const node = getNode(targetPath);
         if (!node) {
@@ -364,6 +384,9 @@ const commands = {
             print('Usage: rm <filename>', 'info');
             return;
         }
+
+        if (hasFlags(args, 'rm')) return;
+
         const targetPath = resolvePath(args[0]);
         const node = getNode(targetPath);
         if (!node) {
@@ -383,6 +406,9 @@ const commands = {
             print('Usage: mv <source> <destination>', 'info');
             return;
         }
+
+        if (hasFlags(args, 'mv')) return;
+
         const sourcePath = resolvePath(args[0]);
         const destPath = resolvePath(args[1]);
         const node = getNode(sourcePath);
@@ -403,10 +429,13 @@ const commands = {
             print('Usage: cp <source> <destination>', 'info');
             return;
         }
+
+        if (hasFlags(args, 'cp')) return;
+
         const sourcePath = resolvePath(args[0]);
         let destPath = resolvePath(args[1]);
         const sourceNode = getNode(sourcePath);
-        
+
         if (!sourceNode) {
             print(`cp: ${args[0]}: No such file or directory`, 'error');
             return;
@@ -415,7 +444,7 @@ const commands = {
             print(`cp: ${args[0]}: Is a directory`, 'error');
             return;
         }
-        
+
         // Check if destination is a directory
         const destNode = getNode(destPath);
         if (destNode && destNode.type === 'dir') {
@@ -423,7 +452,7 @@ const commands = {
             const sourceFileName = sourcePath.split('/').filter(p => p).pop();
             destPath = destPath + (destPath.endsWith('/') ? '' : '/') + sourceFileName;
         }
-        
+
         // Create the new file
         if (createNode(destPath, 'file')) {
             // Copy the content from source to destination
@@ -442,6 +471,9 @@ const commands = {
             print('Usage: mkdir <directory>', 'info');
             return;
         }
+
+        if (hasFlags(args, 'mkdir')) return;
+
         const dirPath = resolvePath(args[0]);
         if (getNode(dirPath)) {
             print(`mkdir: ${args[0]}: Directory already exists`, 'error');
@@ -456,6 +488,9 @@ const commands = {
             print('Usage: rmdir <directory>', 'info');
             return;
         }
+
+        if (hasFlags(args, 'rmdir')) return;
+
         const dirPath = resolvePath(args[0]);
         const node = getNode(dirPath);
         if (!node) {
@@ -475,6 +510,9 @@ const commands = {
             print('Usage: touch <filename>', 'info');
             return;
         }
+
+        if (hasFlags(args, 'touch')) return;
+
         const filePath = resolvePath(args[0]);
         if (getNode(filePath)) {
             print(`touch: ${args[0]}: File already exists`, 'error');

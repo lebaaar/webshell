@@ -58,6 +58,12 @@ function animationHelper(className = '') {
     line.className = `line ${className}`;
     output.appendChild(line);
 
+    // Hide the input line while animation is running
+    const inputLine = document.querySelector('.input-line');
+    if (inputLine) {
+        inputLine.style.display = 'none';
+    }
+
     let frameIndex = 1;
     const totalFrames = 6;
 
@@ -71,12 +77,21 @@ function animationHelper(className = '') {
             .catch((e) => console.error(e));
     }, 200); // Adjust the delay as needed
 
-    document.addEventListener('keydown', function stopAnimation(event) {
+    function stopAnimation(event) {
         if (event.key === 'c' && (event.ctrlKey || event.metaKey)) {
+            event.preventDefault();
             clearInterval(intervalId);
             document.removeEventListener('keydown', stopAnimation);
+            
+            // Show the input line again
+            if (inputLine) {
+                inputLine.style.display = 'flex';
+            }
+            commandInput.focus();
         }
-    });
+    }
+
+    document.addEventListener('keydown', stopAnimation);
 }
 
 // Navigate file system

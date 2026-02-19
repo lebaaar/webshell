@@ -7,6 +7,7 @@ let historyIndex = -1;
 let theme = localStorage.getItem('theme') || 'dark';
 let lastTabInput = '';
 let tabPressCount = 0;
+let animationActive = false;
 
 // Apply saved theme
 if (theme === 'light') {
@@ -50,6 +51,32 @@ function printHTML(html, className = '') {
 function scrollToBottom() {
     const terminal = document.getElementById('terminal');
     terminal.scrollTop = terminal.scrollHeight;
+}
+
+function animationHelper(className = '') {
+    const line = document.createElement('div');
+    line.className = `line ${className}`;
+    output.appendChild(line);
+
+    let frameIndex = 1;
+    const totalFrames = 6;
+
+    const intervalId = setInterval(() => {
+        fetch(`resources/ascii_animation/frame_${frameIndex}.txt`)
+            .then((res) => res.text())
+            .then((text) => {
+                line.textContent = text;
+                frameIndex = frameIndex % totalFrames + 1; // Loop frames
+            })
+            .catch((e) => console.error(e));
+    }, 200); // Adjust the delay as needed
+
+    document.addEventListener('keydown', function stopAnimation(event) {
+        if (event.key === 'c' && (event.ctrlKey || event.metaKey)) {
+            clearInterval(intervalId);
+            document.removeEventListener('keydown', stopAnimation);
+        }
+    });
 }
 
 // Navigate file system
@@ -535,6 +562,13 @@ const commands = {
         }
         createNode(filePath, 'file');
         print(`touch: ${args[0]}: File created`, 'success');
+    },
+
+    dragon() {
+        print('Press Ctrl+C to stop the animation.', 'info');
+        animationHelper();
+        
+        scrollToBottom();
     }
 };
 

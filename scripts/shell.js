@@ -245,9 +245,7 @@ function hasFlags(args, commandName) {
 // Commands
 const commands = {
     help() {
-        print('To learn about our team, type `cat about.txt`', 'info');
-        print('');
-        printHTML('<br>');
+        print('To learn about our team, type `cat about.txt`. Don\'t forget to try `dragon` as well:)', 'info');
         print('Available commands:', 'info');
         print('');
         print('Navigation:');

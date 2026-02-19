@@ -234,8 +234,21 @@ const commands = {
         print('  theme      - Switch between light/dark theme');
     },
 
-    man() {
+    man(args) {
+        if (!args[0]) {
+            print('Usage: man <command>', 'info');
+            return;
+        }
 
+        if (hasFlags(args, 'man')) return;
+
+        const cmd = args[0];
+        // check if command exists
+        if (!commands[cmd]) {
+            print(`No manual entry for ${cmd}`, 'error');
+            return;
+        }
+        print(`Manual for ${cmd}: figure it out :)`, 'info');
     },
 
     clear() {

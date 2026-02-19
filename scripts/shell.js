@@ -26,6 +26,8 @@ document.querySelector('body').addEventListener('click', () => {
 function updatePrompt() {
     const displayPath = currentPath === '/home/user' ? '~' : currentPath;
     promptElement.textContent = `user@nasa:${displayPath}$ `;
+    // Update browser tab title
+    document.title = `user@nasa:${displayPath}`;
 }
 
 // Print to terminal

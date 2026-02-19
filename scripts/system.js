@@ -10,7 +10,8 @@ bla bla bla
 bla bla bla
 
 <h1>Žan Krajnc</h1>
-bla bla bla`
+Computer science student at <a href="https://fri.uni-lj.si/sl" target="_blank">FRI</a> && intern Back End Developer @ <a href="https://devrev.ai/" target="_blank">DevRev</a>.
+LinkedIn: <a href="www.linkedin.com/in/žan-krajnc-75070a2b7" target="_blank">Žan Krajnc</a>`
 };
 export const fileSystem = {
     '/': {

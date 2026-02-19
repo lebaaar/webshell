@@ -1,7 +1,7 @@
 # webshell
 
 DragonHack URL challenge - (almost) full UNIX machine emulator on the web.<br>
-Deployed at: [webshell-b2u.pages.dev](https://webshell-b2u.pages.dev/)
+Deployed at: [dragonhack.lol](https://dragonhack.lol/)
 
 ## Commands
 - `help` - Show all available commands
@@ -22,7 +22,7 @@ Deployed at: [webshell-b2u.pages.dev](https://webshell-b2u.pages.dev/)
 - `uptime` - Show system uptime
 - `theme` - Switch between light/dark theme
 - `dragon` - Draw ASCII art of a dragon
-- `sudo` - Try it and find out... 
+- `sudo` - Try it and find out...
 
 ## Deploy
 Deployed on CF pages

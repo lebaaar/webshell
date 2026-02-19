@@ -58,12 +58,6 @@ function animationHelper(className = '') {
     line.className = `line ${className}`;
     output.appendChild(line);
 
-    // Hide the input line while animation is running
-    const inputLine = document.querySelector('.input-line');
-    if (inputLine) {
-        inputLine.style.display = 'none';
-    }
-
     let frameIndex = 1;
     const totalFrames = 6;
 
@@ -77,21 +71,12 @@ function animationHelper(className = '') {
             .catch((e) => console.error(e));
     }, 200); // Adjust the delay as needed
 
-    function stopAnimation(event) {
+    document.addEventListener('keydown', function stopAnimation(event) {
         if (event.key === 'c' && (event.ctrlKey || event.metaKey)) {
-            event.preventDefault();
             clearInterval(intervalId);
             document.removeEventListener('keydown', stopAnimation);
-            
-            // Show the input line again
-            if (inputLine) {
-                inputLine.style.display = 'flex';
-            }
-            commandInput.focus();
         }
-    }
-
-    document.addEventListener('keydown', stopAnimation);
+    });
 }
 
 // Navigate file system
@@ -261,21 +246,38 @@ function hasFlags(args, commandName) {
 const commands = {
     help() {
         print('To learn about our team, type `cat about.txt`', 'info');
-        print('Most UNIX commands are supported, some examples include::', 'info');
-        print('  help       - Show this help message');
-        print('  man        - Show manual for a command');
-        print('  ls         - List directory contents');
-        print('  cat        - Display file contents');
-        print('  clear      - Clear the terminal');
-        print('  pwd        - Print working directory');
-        print('  cd         - Change directory');
-        print('  echo       - Print text to terminal');
-        print('  sudo       - Execute command as superuser');
-        print('  whoami     - Display team information');
-        print('  draw       - Draw ASCII art of a dragon');
-        print('  uptime     - Show system uptime');
-        print('  git        - Git operations (branch|status)');
-        print('  theme      - Switch between light/dark theme');
+        print('');
+        printHTML('<br>');
+        print('Available commands:', 'info');
+        print('');
+        print('Navigation:');
+        print('    ls         - List directory contents');
+        print('    cd         - Change directory');
+        print('    pwd        - Print working directory');
+        print('    cat        - Display file contents');
+        print('    whoami     - Display current user');
+        print('');
+        print('File operations:');
+        print('    touch      - Create a new file');
+        print('    mkdir      - Create a new directory');
+        print('    rm         - Remove a file');
+        print('    rmdir      - Remove a directory');
+        print('    cp         - Copy a file');
+        print('    mv         - Move/rename a file');
+        print('');
+        print('Utilities:');
+        print('    echo       - Print text to terminal');
+        print('    clear      - Clear the terminal');
+        print('    uptime     - Show system uptime');
+        print('    theme      - Switch between light/dark theme');
+        print('');
+        print('Easter eggs:');
+        print('    dragon     - Draw ASCII art of a dragon');
+        print('    sudo       - Try it and see...');
+        print('');
+        print('Help:');
+        print('    help       - Show this help message');
+        print('    man        - Show manual for a command');
     },
 
     man(args) {

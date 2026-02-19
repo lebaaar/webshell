@@ -564,6 +564,32 @@ const commands = {
         print(`touch: ${args[0]}: File created`, 'success');
     },
 
+    sudo(args) {
+        if (!args[0]) {
+            print('Usage: sudo <command>', 'info');
+            return;
+        }
+
+        print('[sudo] password for user: ', 'info');
+
+        setTimeout(() => {
+            print('Sorry, try again.');
+            print('[sudo] password for user: ', 'info');
+
+            setTimeout(() => {
+                print('Sorry, try again.');
+                print('[sudo] password for user: ', 'info');
+
+                setTimeout(() => {
+                    print('sudo: 3 incorrect password attempts', 'error');
+                    print('This incident will be reported to the administrator and you will go to jail.', 'error');
+                    print('');
+                    printHTML("<small style='font-size: 10px;'>Just kidding - there's no sudo access here ;)</small>", 'info');
+                }, 500);
+            }, 500);
+        }, 500);
+    },
+
     dragon() {
         print('Press Ctrl+C to stop the animation.', 'info');
         animationHelper();
@@ -572,7 +598,7 @@ const commands = {
     }
 };
 
-const unsupportedCommands = ['sudo', 'neofetch', 'fastfetch', 'ping', 'checksum', 'chmod', 'chown'];
+const unsupportedCommands = ['neofetch', 'fastfetch', 'ping', 'checksum', 'chmod', 'chown'];
 unsupportedCommands.forEach(cmd => {
     commands[cmd] = function() {
         print(`${cmd} is not supported in webshell :(.`, 'error');

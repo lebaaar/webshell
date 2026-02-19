@@ -23,7 +23,7 @@ export const fileSystem = {
                 'hostname': { type: 'file', content: 'localhost' },
                 'hosts': { type: 'file', content: '127.0.0.1 localhost' },
                 'resolv.conf': { type: 'file', content: 'nameserver 8.8.8.8' },
-                'shadow': { type: 'file', content: 'root:$6$randomsalt$hashedpassword:18295:0:99999:7:::' },
+                'shadow': { type: 'file', content: 'root:$6$solinpoper$DragonHack123!:18295:0:99999:7:::' },
                 'passwd': { type: 'file', content: 'root:x:0:0:root:/root:/bin/bash' },
                 'group': { type: 'file', content: 'root:x:0:' },
                 'gshadow': { type: 'file', content: 'root:!::' },

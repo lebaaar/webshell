@@ -82,7 +82,7 @@ function animationHelper(className = '') {
         if (event.key === 'c' && (event.ctrlKey || event.metaKey)) {
             clearInterval(intervalId);
             document.removeEventListener('keydown', stopAnimation);
-            
+
             // Re-enable and show input after stopping
             commandInput.disabled = false;
             commandInput.style.opacity = '1';
@@ -145,7 +145,7 @@ function getNode(path) {
 function getCommonPrefix(strings) {
     if (strings.length === 0) return '';
     if (strings.length === 1) return strings[0];
-    
+
     let prefix = strings[0];
     for (let i = 1; i < strings.length; i++) {
         while (strings[i].indexOf(prefix) !== 0) {
@@ -159,7 +159,7 @@ function getCommonPrefix(strings) {
 function getPathCompletions(partial) {
     const lastSlash = partial.lastIndexOf('/');
     let dirPath, prefix;
-    
+
     if (lastSlash === -1) {
         dirPath = currentPath;
         prefix = partial;
@@ -168,10 +168,10 @@ function getPathCompletions(partial) {
         dirPath = resolvePath(pathPart);
         prefix = partial.substring(lastSlash + 1);
     }
-    
+
     const node = getNode(dirPath);
     if (!node || node.type !== 'dir') return [];
-    
+
     const children = node.children || {};
     const matches = Object.keys(children)
         .filter(name => name.startsWith(prefix))
@@ -180,14 +180,14 @@ function getPathCompletions(partial) {
             const fullPrefix = lastSlash === -1 ? '' : partial.substring(0, lastSlash + 1);
             return fullPrefix + name + (child.type === 'dir' ? '/' : '');
         });
-    
+
     return matches;
 }
 
 // Command-specific completions (subcommands and flags)
 const commandCompletions = {
     git: {
-        subcommands: ['log', 'branch', 'contributors', 'status', 'remote', 'show']
+        subcommands: ['log', 'branch', 'contributors', 'status']
     }
 };
 
@@ -216,7 +216,7 @@ function handleTabCompletion() {
         const partial = parts[parts.length - 1] || '';
         const commandName = parts[0];
         const isFlag = partial.startsWith('-');
-        
+
         // Check if we're completing a subcommand or flag for a specific command
         if (commandCompletions[commandName] && parts.length === 2 && !isFlag) {
             // Complete subcommands (e.g., git l<tab> -> git log)
@@ -244,13 +244,13 @@ function handleTabCompletion() {
         const match = matches[0];
         const partial = isCommand ? parts[0] : parts[parts.length - 1];
         const partialStart = cursorPos - partial.length;
-        
+
         // Find the end of the current word (skip non-whitespace after cursor)
         let afterCursor = input.substring(cursorPos);
         const wordEndMatch = afterCursor.match(/^\S*/);
         const wordEndLength = wordEndMatch ? wordEndMatch[0].length : 0;
         afterCursor = input.substring(cursorPos + wordEndLength);
-        
+
         const beforePartial = input.substring(0, partialStart);
         commandInput.value = beforePartial + match + afterCursor;
         commandInput.selectionStart = commandInput.selectionEnd = beforePartial.length + match.length;
@@ -262,13 +262,13 @@ function handleTabCompletion() {
 
         if (commonPrefix.length > partial.length) {
             const partialStart = cursorPos - partial.length;
-            
+
             // Find the end of the current word (skip non-whitespace after cursor)
             let afterCursor = input.substring(cursorPos);
             const wordEndMatch = afterCursor.match(/^\S*/);
             const wordEndLength = wordEndMatch ? wordEndMatch[0].length : 0;
             afterCursor = input.substring(cursorPos + wordEndLength);
-            
+
             const beforePartial = input.substring(0, partialStart);
             commandInput.value = beforePartial + commonPrefix + afterCursor;
             commandInput.selectionStart = commandInput.selectionEnd = beforePartial.length + commonPrefix.length;
@@ -661,7 +661,6 @@ const commands = {
     dragon() {
         print('Press Ctrl+C to stop the animation.', 'info');
         animationHelper();
-        
         scrollToBottom();
     },
 
@@ -738,6 +737,12 @@ const commands = {
                     .catch(err => {
                         print('Failed to fetch contributors from GitHub', 'error');
                     });
+                break;
+            case 'status':
+                print('On branch main');
+                print('Your branch is up to date with \'origin/main\'.');
+                printHTML('<br>');
+                print('nothing to commit, working tree clean');
                 break;
 
             default:

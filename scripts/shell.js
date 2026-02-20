@@ -671,6 +671,7 @@ const commands = {
             print('    log           - Show commit history');
             print('    branch        - List branches');
             print('    contributors  - List contributors with commit counts');
+            print('    status        - Show the working tree status');
             return;
         }
 

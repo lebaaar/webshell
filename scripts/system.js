@@ -8,7 +8,7 @@ Student at <a href="https://www.fov.um.si/" target="_blank">FOV UM</a> (Faculty 
 Projects: REST APIs, load balancers, caching proxies, and more on my GitHub: <a href="https://github.com/tianiste" target="_blank">GitHub</a>
 
 <h1>Kristjan Kumlanc</h1>
-bla bla bla
+Computer science student at <a href="https://fri.uni-lj.si/sl" target="_blank">FRI</a> - interested in backend development and low-level stuff in C.
 
 <h1>Žan Krajnc</h1>
 Computer science student at <a href="https://fri.uni-lj.si/sl" target="_blank">FRI</a> && intern Back End Developer @ <a href="https://devrev.ai/" target="_blank">DevRev</a>.

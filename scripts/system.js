@@ -11,7 +11,7 @@ Projects: REST APIs, load balancers, caching proxies, and more on my GitHub: <a 
 bla bla bla
 
 <h1>Žan Krajnc</h1>
-Computer science student at <a href="https://fri.uni-lj.si/sl" target="_blank">FRI</a> && intern Back End Developer".
+Computer science student at <a href="https://fri.uni-lj.si/sl" target="_blank">FRI</a> && intern Back End Developer.
 LinkedIn: <a href="www.linkedin.com/in/žan-krajnc-75070a2b7" target="_blank">Žan Krajnc</a>`
 };
 export const fileSystem = {

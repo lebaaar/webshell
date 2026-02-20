@@ -58,6 +58,12 @@ function animationHelper(className = '') {
     line.className = `line ${className}`;
     output.appendChild(line);
 
+    // Disable and hide input while animating
+    commandInput.disabled = true;
+    commandInput.style.opacity = '0.5';
+    promptElement.style.display = 'none';
+    commandInput.style.display = 'none';
+
     let frameIndex = 1;
     const totalFrames = 6;
 
@@ -67,6 +73,7 @@ function animationHelper(className = '') {
             .then((text) => {
                 line.textContent = text;
                 frameIndex = frameIndex % totalFrames + 1; // Loop frames
+                scrollToBottom();
             })
             .catch((e) => console.error(e));
     }, 200); // Adjust the delay as needed
@@ -75,6 +82,13 @@ function animationHelper(className = '') {
         if (event.key === 'c' && (event.ctrlKey || event.metaKey)) {
             clearInterval(intervalId);
             document.removeEventListener('keydown', stopAnimation);
+            
+            // Re-enable and show input after stopping
+            commandInput.disabled = false;
+            commandInput.style.opacity = '1';
+            promptElement.style.display = '';
+            commandInput.style.display = '';
+            commandInput.focus();
         }
     });
 }

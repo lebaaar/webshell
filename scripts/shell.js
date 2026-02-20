@@ -173,11 +173,7 @@ function getPathCompletions(partial) {
 // Command-specific completions (subcommands and flags)
 const commandCompletions = {
     git: {
-        subcommands: ['log', 'branch', 'contributors', 'status', 'remote', 'show'],
-        flags: {
-            log: ['--oneline', '--graph', '--all'],
-            remote: ['-v']
-        }
+        subcommands: ['log', 'branch', 'contributors', 'status', 'remote', 'show']
     }
 };
 

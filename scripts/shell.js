@@ -268,6 +268,7 @@ const commands = {
         print('    clear      - Clear the terminal');
         print('    uptime     - Show system uptime');
         print('    theme      - Switch between light/dark theme');
+        print('    git        - Show repo commits and branches');
         print('');
         print('Easter eggs:');
         print('    dragon     - Draw ASCII art of a dragon');
@@ -610,6 +611,69 @@ const commands = {
         animationHelper();
         
         scrollToBottom();
+    },
+
+    git(args) {
+        if (!args[0]) {
+            print('Usage: git <command>', 'info');
+            print('Available commands:');
+            print('    log      - Show commit history');
+            print('    branch   - List branches');
+            return;
+        }
+
+        if (hasFlags(args, 'git')) return;
+
+        const subcommand = args[0];
+
+        switch(subcommand) {
+            case 'log':
+                print('Fetching commits...', 'info');
+                fetch('https://api.github.com/repos/lebaaar/webshell/commits')
+                    .then(res => res.json())
+                    .then(commits => {
+                        print('');
+                        commits.slice(0, 20).forEach((commit, i) => {
+                            const hash = commit.sha.substring(0, 7);
+                            const author = commit.commit.author.name;
+                            const date = new Date(commit.commit.author.date).toDateString();
+                            const message = commit.commit.message;
+
+                            printHTML(`<span style="color: #f9e2af;">commit ${hash}</span>`);
+                            printHTML(`<span style="color: #89b4fa;">Author:</span> ${author}`);
+                            printHTML(`<span style="color: #89b4fa;">Date:</span>   ${date}`);
+                            print('');
+                            print(`    ${message}`);
+                            if (i < commits.length - 1) print('');
+                        });
+                    })
+                    .catch(err => {
+                        print('Failed to fetch commits from GitHub', 'error');
+                    });
+                break;
+
+            case 'branch':
+                print('Fetching branches...', 'info');
+                fetch('https://api.github.com/repos/lebaaar/webshell/branches')
+                    .then(res => res.json())
+                    .then(branches => {
+                        print('');
+                        branches.forEach(branch => {
+                            if (branch.name === 'main') {
+                                printHTML(`<span style="color: #a6e3a1;">* ${branch.name}</span>`);
+                            } else {
+                                print(`  ${branch.name}`);
+                            }
+                        });
+                    })
+                    .catch(err => {
+                        print('Failed to fetch branches from GitHub', 'error');
+                    });
+                break;
+
+            default:
+                print(`git: '${subcommand}' is not a git command. See 'git --help'.`, 'error');
+        }
     }
 };
 

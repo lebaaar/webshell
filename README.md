@@ -21,6 +21,7 @@ Deployed at: [dragonhack.lol](https://dragonhack.lol/)
 - `clear` - Clear the terminal
 - `uptime` - Show system uptime
 - `theme` - Switch between light/dark theme
+- `git` - Show repo commits and branches
 - `dragon` - Draw ASCII art of a dragon
 - `sudo` - Try it and find out...
 

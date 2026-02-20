@@ -4,7 +4,8 @@ Computer science student at <a href="https://fri.uni-lj.si/sl" target="_blank">F
 Projects: <a href="https://www.potegni.me" target="_blank">potegni.me</a>, <a href="https://lan.si" target="_blank">lan.si</a>, and more on my GitHub: <a href="https://github.com/lebaaar" target="_blank">GitHub</a>
 
 <h1>Tian Istenič</h1>
-bla bla bla
+Student at <a href="https://www.fov.um.si/" target="_blank">FOV UM</a> (Faculty of Organizational Sciences) - passionate about backend development and building scalable systems with Go.
+Projects: REST APIs, load balancers, caching proxies, and more on my GitHub: <a href="https://github.com/tianiste" target="_blank">GitHub</a>
 
 <h1>Kristjan Kumlanc</h1>
 bla bla bla

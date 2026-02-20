@@ -170,6 +170,17 @@ function getPathCompletions(partial) {
     return matches;
 }
 
+// Command-specific completions (subcommands and flags)
+const commandCompletions = {
+    git: {
+        subcommands: ['log', 'branch', 'contributors', 'status', 'remote', 'show'],
+        flags: {
+            log: ['--oneline', '--graph', '--all'],
+            remote: ['-v']
+        }
+    }
+};
+
 function handleTabCompletion() {
     const input = commandInput.value;
     const cursorPos = commandInput.selectionStart;
@@ -192,9 +203,26 @@ function handleTabCompletion() {
         const partial = parts[0] || '';
         matches = Object.keys(commands).filter(cmd => cmd.startsWith(partial));
     } else {
-        // complete dir paths
         const partial = parts[parts.length - 1] || '';
-        matches = getPathCompletions(partial);
+        const commandName = parts[0];
+        const isFlag = partial.startsWith('-');
+        
+        // Check if we're completing a subcommand or flag for a specific command
+        if (commandCompletions[commandName] && parts.length === 2 && !isFlag) {
+            // Complete subcommands (e.g., git l<tab> -> git log)
+            matches = commandCompletions[commandName].subcommands.filter(sub => sub.startsWith(partial));
+        } else if (commandCompletions[commandName] && isFlag) {
+            // Complete flags (e.g., git log --on<tab> -> git log --oneline)
+            const subcommand = parts[1];
+            const allFlags = [
+                ...(commandCompletions[commandName].flags[subcommand] || []),
+                ...(commandCompletions[commandName].flags['*'] || [])
+            ];
+            matches = allFlags.filter(flag => flag.startsWith(partial));
+        } else {
+            // complete dir paths
+            matches = getPathCompletions(partial);
+        }
     }
 
     if (matches.length === 0) {
@@ -205,8 +233,15 @@ function handleTabCompletion() {
         // single match
         const match = matches[0];
         const partial = isCommand ? parts[0] : parts[parts.length - 1];
-        const beforePartial = input.substring(0, cursorPos - partial.length);
-        const afterCursor = input.substring(cursorPos);
+        const partialStart = cursorPos - partial.length;
+        
+        // Find the end of the current word (skip non-whitespace after cursor)
+        let afterCursor = input.substring(cursorPos);
+        const wordEndMatch = afterCursor.match(/^\S*/);
+        const wordEndLength = wordEndMatch ? wordEndMatch[0].length : 0;
+        afterCursor = input.substring(cursorPos + wordEndLength);
+        
+        const beforePartial = input.substring(0, partialStart);
         commandInput.value = beforePartial + match + afterCursor;
         commandInput.selectionStart = commandInput.selectionEnd = beforePartial.length + match.length;
         lastTabInput = commandInput.value;
@@ -216,8 +251,15 @@ function handleTabCompletion() {
         const partial = isCommand ? parts[0] : parts[parts.length - 1];
 
         if (commonPrefix.length > partial.length) {
-            const beforePartial = input.substring(0, cursorPos - partial.length);
-            const afterCursor = input.substring(cursorPos);
+            const partialStart = cursorPos - partial.length;
+            
+            // Find the end of the current word (skip non-whitespace after cursor)
+            let afterCursor = input.substring(cursorPos);
+            const wordEndMatch = afterCursor.match(/^\S*/);
+            const wordEndLength = wordEndMatch ? wordEndMatch[0].length : 0;
+            afterCursor = input.substring(cursorPos + wordEndLength);
+            
+            const beforePartial = input.substring(0, partialStart);
             commandInput.value = beforePartial + commonPrefix + afterCursor;
             commandInput.selectionStart = commandInput.selectionEnd = beforePartial.length + commonPrefix.length;
             lastTabInput = commandInput.value;

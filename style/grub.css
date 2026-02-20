@@ -74,11 +74,7 @@ body {
 
 @media (max-width: 768px) {
     .grub-container {
-        padding: 20px;
-    }
-    
-    .grub-menu {
-        padding: 0 20px;
+        padding: 20px 10x;
     }
     
     .grub-footer {

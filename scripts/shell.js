@@ -617,8 +617,9 @@ const commands = {
         if (!args[0]) {
             print('Usage: git <command>', 'info');
             print('Available commands:');
-            print('    log      - Show commit history');
-            print('    branch   - List branches');
+            print('    log           - Show commit history');
+            print('    branch        - List branches');
+            print('    contributors  - List contributors with commit counts');
             return;
         }
 
@@ -668,6 +669,22 @@ const commands = {
                     })
                     .catch(err => {
                         print('Failed to fetch branches from GitHub', 'error');
+                    });
+                break;
+
+            case 'contributors':
+                print('Fetching contributors...', 'info');
+                fetch('https://api.github.com/repos/lebaaar/webshell/contributors')
+                    .then(res => res.json())
+                    .then(contributors => {
+                        print('');
+                        contributors.forEach(contributor => {
+                            const commits = contributor.contributions === 1 ? '1 commit' : `${contributor.contributions} commits`;
+                            printHTML(`<span style="color: #f5c2e7;">${contributor.login}</span> - ${commits}`);
+                        });
+                    })
+                    .catch(err => {
+                        print('Failed to fetch contributors from GitHub', 'error');
                     });
                 break;
 

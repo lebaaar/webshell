@@ -1,7 +1,11 @@
 # webshell
 
 DragonHack URL challenge - (almost) full UNIX machine emulator on the web.<br>
-Deployed at: [dragonhack.lol](https://dragonhack.lol/)
+Deployed at [dragonhack.lol](https://dragonhack.lol/)
+
+<video controls>
+  <source src="assets/video.mp4" type="video/mp4">
+</video>
 
 ## Commands
 - `help` - Show all available commands
@@ -26,7 +30,7 @@ Deployed at: [dragonhack.lol](https://dragonhack.lol/)
 - `sudo` - Try it and find out...
 
 ## Deploy
-Deployed on CF pages
+Deployed on Cloudflare pages:
 ```
 npx wrangler login
 npx wrangler pages deploy . --project-name=webshell

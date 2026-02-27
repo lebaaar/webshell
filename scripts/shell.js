@@ -747,7 +747,7 @@ const commands = {
                 break;
 
             default:
-                print(`git: '${subcommand}' is not a git command. See 'git --help'.`, 'error');
+                print(`git: '${subcommand}' is not a git command`, 'error');
         }
     }
 };

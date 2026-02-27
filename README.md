@@ -3,7 +3,7 @@
 DragonHack URL challenge - (almost) full UNIX machine emulator on the web.<br>
 Deployed at [dragonhack.lol](https://dragonhack.lol/)
 
-[![Demo](/assets/video.mp4)](assets/video.mp4)
+![Demo](assets/demo.gif)
 
 ## Commands
 - `help` - Show all available commands

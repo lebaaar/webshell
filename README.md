@@ -3,9 +3,7 @@
 DragonHack URL challenge - (almost) full UNIX machine emulator on the web.<br>
 Deployed at [dragonhack.lol](https://dragonhack.lol/)
 
-<video controls>
-  <source src="assets/video.mp4" type="video/mp4">
-</video>
+[![Demo](/assets/video.mp4)](assets/video.mp4)
 
 ## Commands
 - `help` - Show all available commands
